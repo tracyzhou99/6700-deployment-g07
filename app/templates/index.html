@@ -1,0 +1,349 @@
+<html>
+
+<head>
+    <title>PCOS diagnosis application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    
+        #myInput {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+    
+        #myTable {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+    
+        #myTable th,
+        #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
+    
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+    
+        #myTable tr.header,
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .table-container {
+            height: 400px;
+            overflow-y: scroll;
+        }
+
+        table {
+            width: 800px;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <img src="{{ href }}" height="600" />
+        <form method="post">
+            <label>Input a comma-separated list of features.</label>
+            <input name="text">
+            <input type="submit"> 
+        </form>
+
+        <h2>Variable Descriptions for PCOS diagnosis</h2>
+        <input style="width: 800px;" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for variables..." title="Type in a variable">
+        <div class="table-container">
+        <table id="myTable" style="width: 800px;">
+            <thead>
+                <tr class="header">
+                    <th style="width: 20%;">Name</th>
+                    <th style="width: 40%;">Description</th>
+                    <th style="width: 20%;">Datatype</th>
+                    <th style="width: 20%;">Range</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Age</td>
+                <td>Patient's age in years</td>
+                <td>Continuous</td>
+                <td>0-100</td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+                <td>Patient's weight in KG</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td>Patient's height in CM</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Blood Group</td>
+                <td>Patients belong to which blood group
+                (A+ = 11,
+                A- = 12,
+                B+ = 13,
+                B- = 14,
+                O+ =15,
+                O- = 16,
+                AB+ =17,
+                AB- = 18)</td>
+                <td>Integer</td>
+                <td>11-18</td>
+            </tr>
+            <tr>
+                <td>Pulse Rate</td>
+                <td>Heartbeat per minute</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Respiration Rates</td>
+                <td>Respiration rates per minute</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Hemoglobin</td>
+                <td>Number of red blood cells in patient's body(g/dl)</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Cycle</td>
+                <td>Length of the menstrual cycle(R/I)</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Cycle Length</td>
+                <td>Number of days of a cycle</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Marriage Status</td>
+                <td>Number of years since marriage</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Pregnant</td>
+                <td>Pregnant status</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>No. of Abortions</td>
+                <td>No. of abortions</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>I Beta-HCG</td>
+                <td>Amount of human chorionic gonadotropin(mIU/mL)</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Beta Healthy Singleton Pregnancy</td>
+                <td>Beta HCG level is indication of 100 mIU/ml
+                about 16 days after ovulation</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Follicle-Stimulating Hormone</td>
+                <td>Attributes ranging from 0.3 to 10.0 mIU/mL
+                indicate if are still menstruating or have undergone menopause</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Luteinizing Hormone</td>
+                <td>Chemical agitator that stimulates the reproductive system</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Hip Size</td>
+                <td>Size of hip in inches</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Waist-Hip Ratio</td>
+                <td>Waist size proportion to hip</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Thyroid-Stimulating Hormone</td>
+                <td>Amount of TSH in the blood</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Anti-Mullerian Hormone</td>
+                <td>Plays a key role in developing a baby's sex organs
+                while in the womb</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Prolactin levels</td>
+                <td>Prolactin levels in women's bodies</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Vitamin D</td>
+                <td>Vitamin D levels</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Progesterone Levels</td>
+                <td>Progesterone levels</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Random Blood Sugar</td>
+                <td>Value of random blood sugar (RBS) test</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Weight Gain</td>
+                <td>Test to check if the patient gains weight</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>Hair Growth</td>
+                <td>Test to check if a patient has hair growth</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>Skin Darkening</td>
+                <td>Test to check the appearance of darkness in skin</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>Hair Loss</td>
+                <td>Test to check hair loss</td>
+                <td>Boolean</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Pimples</td>
+                <td>Pimple issues</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>Fast Food</td>
+                <td>Check if fast food part of the diet</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>Reg.Exercise</td>
+                <td>Check if patient exercises on a regular basis</td>
+                <td>Boolean</td>
+                <td>0/1</td>
+            </tr>
+            <tr>
+                <td>Blood Pressure Systolic</td>
+                <td>Amount of pressure in the arteries when the heart is contracting(mmHg)</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Blood Pressure Diastolic</td>
+                <td>Amount of pressure in the arteries while
+                the heart is resting in between heart beats(mmHg)</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Follicle No.(L)</td>
+                <td>Follicle number in the left side</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Follicle No.(R)</td>
+                <td>Follicle number in the right side</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Avg. F size (L)</td>
+                <td>Average follicle size on the left ovaries</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Avg. F size (R)</td>
+                <td>Average follicle size on the right ovaries</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Endometrium</td>
+                <td>The size of endometrium(mm)</td>
+                <td>Continuous</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <script>
+            function myFunction() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        </script>
+    </center>
+</body>
+
+</html>
