@@ -12,12 +12,36 @@ def index():
     # get the html request type to differentiate the output
     request_type = request.method
     if request_type == 'GET':
-        path = 'static/example.png'
-        return render_template('index.html',href=path)
+        path = 'static/mean_importances.svg'
+        return render_template('index.html',href=path,message=None)
     else:
-        text = request.form['text']
-        path = 'static/example.png'
-        return render_template('index.html',href=path)
+        # use try except to make sure the input value is valid
+        try:
+            # collect the input values from the input form
+            # change the datatype into float
+            test_data = [float(value) for key, value in request.form.items()]
+            # perform the model testing part
+
+
+
+
+
+
+            # save the result as a variable
+            # if class_label == '0':
+            #   result = 'NOT PCOS'
+            # else:
+            #   result = 'PCOS'
+
+            # define the return message
+            #message = f"The diagnosis result of the patient's data is {result}."
+            message = f"The diagnosis result of the patient's data is {test_data}."
+        except:
+            message = f"Invalid Input. Please check your data and type."
+        
+        # print the result to the HTML page
+        path = 'static/mean_importances.svg'
+        return render_template('index.html',href=path,message=message)
 
 
 if __name__ == '__main__':
