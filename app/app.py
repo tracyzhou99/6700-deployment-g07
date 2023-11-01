@@ -21,18 +21,14 @@ def index():
             # change the datatype into float
             test_data = [float(value) for key, value in request.form.items()]
             # perform the model testing part
-
-
-
-
-
-
+            with open('stackedmodel.pkl', 'rb') as file:
+                pickle_model = pickle.load(file)
+            class_label = pickle_model.predict([test_data])[0]
             # save the result as a variable
-            # if class_label == '0':
-            #   result = 'NOT PCOS'
-            # else:
-            #   result = 'PCOS'
-
+            if class_label == '0':
+               result = 'NOT PCOS'
+            else:
+               result = 'PCOS'
             # define the return message
             #message = f"The diagnosis result of the patient's data is {result}."
             message = f"The diagnosis result of the patient's data is {test_data}."
