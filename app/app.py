@@ -24,11 +24,13 @@ def index():
             with open('stackedmodel.pkl', 'rb') as file:
                 pickle_model = pickle.load(file)
             class_label = pickle_model.predict([test_data])[0]
+           
             # save the result as a variable
             if class_label == '0':
                result = 'NOT PCOS'
             else:
                result = 'PCOS'
+           
             # define the return message
             #message = f"The diagnosis result of the patient's data is {result}."
             message = f"The diagnosis result of the patient's data is {test_data}."
@@ -42,3 +44,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
