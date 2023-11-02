@@ -18,6 +18,7 @@ def index():
         # use try except to make sure the input value is valid
         try:
             # collect the input values from the input form
+            
             # change the datatype into float
             test_data = [float(value) for key, value in request.form.items()]
             # perform the model testing part
