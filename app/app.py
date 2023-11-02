@@ -18,11 +18,11 @@ def index():
         # use try except to make sure the input value is valid
         try:
             # collect the input values from the input form
-            
+            model_path='/Users/adw10/Documents/GitHub/6700-deployment-g07/app/TrainedModel/stackedmodel.pkl'
             # change the datatype into float
-            test_data = [float(value) for key, value in request.form.items()]
+            test_data = [float(value) for field, value in request.form.items()]
             # perform the model testing part
-            with open('stackedmodel.pkl', 'rb') as file:
+            with open(model_path, 'rb') as file:
                 pickle_model = pickle.load(file)
             class_label = pickle_model.predict([test_data])[0]
            
@@ -34,13 +34,13 @@ def index():
            
             # define the return message
             #message = f"The diagnosis result of the patient's data is {result}."
-            message = f"The diagnosis result of the patient's data is {test_data}."
+            message = f"The diagnosis result of the patient's data is {result}."
         except:
             message = f"Invalid Input. Please check your data and type."
         
         # print the result to the HTML page
-        path = 'static/mean_importances.svg'
-        return render_template('index.html',href=path,message=message)
+            path = 'static/mean_importances.svg'
+            return render_template('index.html',href=path,message=message)
 
 
 if __name__ == '__main__':
