@@ -7,6 +7,12 @@
         * {
             box-sizing: border-box;
         }
+        header {
+            background-color: rgba(153, 217, 140, 0.7);
+            color: black;
+            padding: 2px;
+            text-align: center;
+        }
 
         #myTable {
             border-collapse: collapse;
@@ -33,10 +39,11 @@
         .table-container {
             height: 400px;
             overflow-y: scroll;
+            width: 90%
         }
 
         table {
-            width: 800px;
+            width: 700px;
         }
 
         th {
@@ -59,18 +66,24 @@
         #myDiv {
             font-size: 20px;
             font-weight: bold;
+            color: black;
+        }
+        
+        #myDiv2 {
+            font-size: 20px;
+            font-weight: bold;
             color: red;
         }
 
         #left {
             float: left;
-            width: 60%;
+            width: 70%;
             height: 500px;
         }
 
         #right {
             float: right;
-            width: 40%;
+            width: 30%;
             height: 500px;
         }
         .custom-box {
@@ -85,7 +98,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            width: 1200px;
+            width: 1000px;
             
         }
         .custom-box2 {
@@ -94,7 +107,7 @@
             padding: 15px;
             margin: 15px 0;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 800px;
+            width: 950px;
             background-color: #f4f3f3;
             z-index: 1;
         }
@@ -102,33 +115,16 @@
 </head>
 
 <body>
+    <header>
+        <h1>Polycystic Ovary Syndrome Diagnosis</h1>
+        <p style="font-size: 18px;">Group 07: Tianqi Zhou, Zixuan Li, Yifei Wu</p>
+    </header>
+    <br>
     <center>
+        <form id="data-form" method="POST">
         <div class="container">
             <div id="left">
-                <h2>Feature importance for the classifier</h2>
-                <img src="{{ href }}" height="80%" width="90%" />
-            </div>
-            
-            <div id="right">
-            <h2>Predicted result</h2>
-                <div class="custom-box">
-                <!-- Display the message according to the flash result -->
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages[0][0] == "result" %}
-                        <p id="myDiv">RESULT predicted by {{selected_model}}:<br> {{ messages[0][1] }}</p>
-                    {% else %}
-                        <p id="myDiv">{{messages[0][1]}}</p>
-                    {% endif %}
-                {% endwith %}
-            </div>
-            </div>
-        </div>
-        
-        <div>
-            <br>
             <h2>Variable Descriptions and Selections for PCOS diagnosis</h2>
-
-            <div>
                 <!-- Add five sets of example input data -->
                 <label>Select a set of example values:</label>
                 <select id="selectSet">
@@ -161,13 +157,293 @@
                             Example 5</option>
                     </optgroup>
                 </select>
+                <br><br>
+
+                <!-- Data description and input part -->
+                <div class="table-container">
+                                <input style="width: 600px;" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for variables..."
+                                    title="Type in a variable">
+                            
+                                <table id="myTable" style="width: 600px;">
+                                    <thead>
+                                        <tr class="header">
+                                            <th style="width: 20%;">Name</th>
+                                            <th style="width: 50%;">Description</th>
+                                            <th style="width: 20%;">Range</th>
+                                            <th style="width: 10%;">Input value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Age</td>
+                                            <td>Patient's age in years</td>
+                                            <td>0-100</td>
+                                            <td><input type="text" name="value1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weight</td>
+                                            <td>Patient's weight in KG</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value2"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Height</td>
+                                            <td>Patient's height in CM</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value3"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Group</td>
+                                            <td>Patients belong to which blood group
+                                                (A+ = 11,
+                                                A- = 12,
+                                                B+ = 13,
+                                                B- = 14,
+                                                O+ =15,
+                                                O- = 16,
+                                                AB+ =17,
+                                                AB- = 18)</td>
+                                            <td>11-18</td>
+                                            <td><input type="text" name="value4"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pulse Rate</td>
+                                            <td>Heartbeat per minute</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value5"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Respiration Rates</td>
+                                            <td>Respiration rates per minute</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value6"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hemoglobin</td>
+                                            <td>Number of red blood cells in patient's body(g/dl)</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value7"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cycle</td>
+                                            <td>Length of the menstrual cycle(R/I)</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value8"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cycle Length</td>
+                                            <td>Number of days of a cycle</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value9"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Marriage Status</td>
+                                            <td>Number of years since marriage</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value10"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pregnant</td>
+                                            <td>Pregnant status</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value11"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. of Abortions</td>
+                                            <td>No. of abortions</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value12"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>I Beta-HCG</td>
+                                            <td>Amount of human chorionic gonadotropin(mIU/mL)</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value13"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Beta Healthy Singleton Pregnancy</td>
+                                            <td>Beta HCG level is indication of 100 mIU/ml
+                                                about 16 days after ovulation</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value14"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Follicle-Stimulating Hormone</td>
+                                            <td>Attributes ranging from 0.3 to 10.0 mIU/mL
+                                                indicate if are still menstruating or have undergone menopause</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value15"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Luteinizing Hormone</td>
+                                            <td>Chemical agitator that stimulates the reproductive system</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value16"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hip Size</td>
+                                            <td>Size of hip in inches</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value17"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Waist-Hip Ratio</td>
+                                            <td>Waist size proportion to hip</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value18"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Thyroid-Stimulating Hormone</td>
+                                            <td>Amount of TSH in the blood</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value19"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Anti-Mullerian Hormone</td>
+                                            <td>Plays a key role in developing a baby's sex organs
+                                                while in the womb</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value20"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prolactin levels</td>
+                                            <td>Prolactin levels in women's bodies</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value21"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vitamin D</td>
+                                            <td>Vitamin D levels</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value22"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Progesterone Levels</td>
+                                            <td>Progesterone levels</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value23"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Random Blood Sugar</td>
+                                            <td>Value of random blood sugar (RBS) test</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value24"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weight Gain</td>
+                                            <td>Test to check if the patient gains weight</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value25"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hair Growth</td>
+                                            <td>Test to check if a patient has hair growth</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value26"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Skin Darkening</td>
+                                            <td>Test to check the appearance of darkness in skin</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value27"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hair Loss</td>
+                                            <td>Test to check hair loss</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value28"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pimples</td>
+                                            <td>Pimple issues</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value29"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fast Food</td>
+                                            <td>Check if fast food part of the diet</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value30"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reg.Exercise</td>
+                                            <td>Check if patient exercises on a regular basis</td>
+                                            <td>0 or 1</td>
+                                            <td><input type="text" name="value31"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Pressure Systolic</td>
+                                            <td>Amount of pressure in the arteries when the heart is contracting(mmHg)</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value32"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Pressure Diastolic</td>
+                                            <td>Amount of pressure in the arteries while
+                                                the heart is resting in between heart beats(mmHg)</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value33"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Follicle No.(L)</td>
+                                            <td>Follicle number in the left side</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value34"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Follicle No.(R)</td>
+                                            <td>Follicle number in the right side</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value35"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Avg. F size (L)</td>
+                                            <td>Average follicle size on the left ovaries</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value36"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Avg. F size (R)</td>
+                                            <td>Average follicle size on the right ovaries</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value37"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Endometrium</td>
+                                            <td>The size of endometrium(mm)</td>
+                                            <td>Continous</td>
+                                            <td><input type="text" name="value38"></td>
+                                        </tr>
+                            
+                                    </tbody>
+                                </table>
+                </div>
+
             </div>
+
+
             
+            <div id="right">
+            <h2>Predicted result</h2>
+                <div class="custom-box">
+                <!-- Display the message according to the flash result -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages[0][0] == "result" %}
+                        <p id="myDiv">RESULT predicted by {{selected_model}}:<br> <span style="color: red;">{{ messages[0][1] }}</span></p>
+                    {% else %}
+                        <p id="myDiv2">{{messages[0][1]}}</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            </div>
+        </div>
+        <br><br>
+        <div>
             <div>
-                <form id="data-form" method="POST">
+
                     <!--Model selection part -->
                     <div class="custom-box2">
-                        <h2>Choose from the models:</h2>
+                        <h2>Choose from the models</h2>
                     
                         <!-- Radio buttons for model selection -->
                         <div class="form-group">
@@ -181,270 +457,15 @@
                     </div>
                     <!-- Submit button -->
                     <input type="submit" value="Submit" id="submit-button">
-                    <br><br>
-                    <!-- Data description and input part -->
-                    <div class="table-container">
-                    <input style="width: 800px;" type="text" id="myInput" onkeyup="myFunction()"
-                placeholder="Search for variables..." title="Type in a variable">
+                    <br><br><br>
                     
-                        <table id="myTable" style="width: 800px;">
-                            <thead>
-                                <tr class="header">
-                                    <th style="width: 20%;">Name</th>
-                                    <th style="width: 40%;">Description</th>
-                                    <th style="width: 20%;">Range</th>
-                                    <th style="width: 20%;">Input value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Age</td>
-                                    <td>Patient's age in years</td>
-                                    <td>0-100</td>
-                                    <td><input type="text" name="value1"></td>
-                                </tr>
-                                <tr>
-                                    <td>Weight</td>
-                                    <td>Patient's weight in KG</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value2"></td>
-                                </tr>
-                                <tr>
-                                    <td>Height</td>
-                                    <td>Patient's height in CM</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value3"></td>
-                                </tr>
-                                <tr>
-                                    <td>Blood Group</td>
-                                    <td>Patients belong to which blood group
-                                        (A+ = 11,
-                                        A- = 12,
-                                        B+ = 13,
-                                        B- = 14,
-                                        O+ =15,
-                                        O- = 16,
-                                        AB+ =17,
-                                        AB- = 18)</td>
-                                    <td>11-18</td>
-                                    <td><input type="text" name="value4"></td>
-                                </tr>
-                                <tr>
-                                    <td>Pulse Rate</td>
-                                    <td>Heartbeat per minute</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value5"></td>
-                                </tr>
-                                <tr>
-                                    <td>Respiration Rates</td>
-                                    <td>Respiration rates per minute</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value6"></td>
-                                </tr>
-                                <tr>
-                                    <td>Hemoglobin</td>
-                                    <td>Number of red blood cells in patient's body(g/dl)</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value7"></td>
-                                </tr>
-                                <tr>
-                                    <td>Cycle</td>
-                                    <td>Length of the menstrual cycle(R/I)</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value8"></td>
-                                </tr>
-                                <tr>
-                                    <td>Cycle Length</td>
-                                    <td>Number of days of a cycle</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value9"></td>
-                                </tr>
-                                <tr>
-                                    <td>Marriage Status</td>
-                                    <td>Number of years since marriage</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value10"></td>
-                                </tr>
-                                <tr>
-                                    <td>Pregnant</td>
-                                    <td>Pregnant status</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value11"></td>
-                                </tr>
-                                <tr>
-                                    <td>No. of Abortions</td>
-                                    <td>No. of abortions</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value12"></td>
-                                </tr>
-                                <tr>
-                                    <td>I Beta-HCG</td>
-                                    <td>Amount of human chorionic gonadotropin(mIU/mL)</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value13"></td>
-                                </tr>
-                                <tr>
-                                    <td>Beta Healthy Singleton Pregnancy</td>
-                                    <td>Beta HCG level is indication of 100 mIU/ml
-                                        about 16 days after ovulation</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value14"></td>
-                                </tr>
-                                <tr>
-                                    <td>Follicle-Stimulating Hormone</td>
-                                    <td>Attributes ranging from 0.3 to 10.0 mIU/mL
-                                        indicate if are still menstruating or have undergone menopause</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value15"></td>
-                                </tr>
-                                <tr>
-                                    <td>Luteinizing Hormone</td>
-                                    <td>Chemical agitator that stimulates the reproductive system</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value16"></td>
-                                </tr>
-                                <tr>
-                                    <td>Hip Size</td>
-                                    <td>Size of hip in inches</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value17"></td>
-                                </tr>
-                                <tr>
-                                    <td>Waist-Hip Ratio</td>
-                                    <td>Waist size proportion to hip</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value18"></td>
-                                </tr>
-                                <tr>
-                                    <td>Thyroid-Stimulating Hormone</td>
-                                    <td>Amount of TSH in the blood</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value19"></td>
-                                </tr>
-                                <tr>
-                                    <td>Anti-Mullerian Hormone</td>
-                                    <td>Plays a key role in developing a baby's sex organs
-                                        while in the womb</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value20"></td>
-                                </tr>
-                                <tr>
-                                    <td>Prolactin levels</td>
-                                    <td>Prolactin levels in women's bodies</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value21"></td>
-                                </tr>
-                                <tr>
-                                    <td>Vitamin D</td>
-                                    <td>Vitamin D levels</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value22"></td>
-                                </tr>
-                                <tr>
-                                    <td>Progesterone Levels</td>
-                                    <td>Progesterone levels</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value23"></td>
-                                </tr>
-                                <tr>
-                                    <td>Random Blood Sugar</td>
-                                    <td>Value of random blood sugar (RBS) test</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value24"></td>
-                                </tr>
-                                <tr>
-                                    <td>Weight Gain</td>
-                                    <td>Test to check if the patient gains weight</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value25"></td>
-                                </tr>
-                                <tr>
-                                    <td>Hair Growth</td>
-                                    <td>Test to check if a patient has hair growth</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value26"></td>
-                                </tr>
-                                <tr>
-                                    <td>Skin Darkening</td>
-                                    <td>Test to check the appearance of darkness in skin</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value27"></td>
-                                </tr>
-                                <tr>
-                                    <td>Hair Loss</td>
-                                    <td>Test to check hair loss</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value28"></td>
-                                </tr>
-                                <tr>
-                                    <td>Pimples</td>
-                                    <td>Pimple issues</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value29"></td>
-                                </tr>
-                                <tr>
-                                    <td>Fast Food</td>
-                                    <td>Check if fast food part of the diet</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value30"></td>
-                                </tr>
-                                <tr>
-                                    <td>Reg.Exercise</td>
-                                    <td>Check if patient exercises on a regular basis</td>
-                                    <td>0 or 1</td>
-                                    <td><input type="text" name="value31"></td>
-                                </tr>
-                                <tr>
-                                    <td>Blood Pressure Systolic</td>
-                                    <td>Amount of pressure in the arteries when the heart is contracting(mmHg)</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value32"></td>
-                                </tr>
-                                <tr>
-                                    <td>Blood Pressure Diastolic</td>
-                                    <td>Amount of pressure in the arteries while
-                                        the heart is resting in between heart beats(mmHg)</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value33"></td>
-                                </tr>
-                                <tr>
-                                    <td>Follicle No.(L)</td>
-                                    <td>Follicle number in the left side</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value34"></td>
-                                </tr>
-                                <tr>
-                                    <td>Follicle No.(R)</td>
-                                    <td>Follicle number in the right side</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value35"></td>
-                                </tr>
-                                <tr>
-                                    <td>Avg. F size (L)</td>
-                                    <td>Average follicle size on the left ovaries</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value36"></td>
-                                </tr>
-                                <tr>
-                                    <td>Avg. F size (R)</td>
-                                    <td>Average follicle size on the right ovaries</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value37"></td>
-                                </tr>
-                                <tr>
-                                    <td>Endometrium</td>
-                                    <td>The size of endometrium(mm)</td>
-                                    <td>Continous</td>
-                                    <td><input type="text" name="value38"></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </form>
+                    
+                    <h2>Feature importance for the classifier</h2>
+                    <img src="{{ href }}" width="900px" />
+                
             </div>
         </div>
+        </form>
         <script>
             function myFunction() {
                 var input, filter, table, tr, td, i, txtValue;
