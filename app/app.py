@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 import numpy as np
 import pandas as pd
-import pickle
+import secrets
+import joblib
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex()
+
+# define the available models for the app
+available_models = ['lg', 'NB', 'KNN', 'Tree', 'Random Forest', 'Bagging', 'Stacked Model', 'XGB','GBM']
 
 # add get and post method to our app
 @app.route('/', methods=['GET','POST'])
@@ -13,13 +18,14 @@ def index():
     request_type = request.method
     if request_type == 'GET':
         path = 'static/mean_importances.svg'
-        return render_template('index.html',href=path,message=None)
+        flash(f"Please input data and submit!", "welcome")
+        return render_template('index.html',href=path,available_models=available_models)
     else:
         # use try except to make sure the input value is valid
         try:
             # collect the input values from the input form
             # change the datatype into float
-            test_data = [float(value) for key, value in request.form.items()]
+            test_data = [float(value) for key, value in request.form.items() if key != "model"]
             # save the data into a dataframe
             test_df = pd.DataFrame([test_data], columns=[' Age (yrs)', 'Weight (Kg)', 'Height(Cm) ', 'Blood Group',
                 'Pulse rate(bpm) ', 'RR (breaths/min)', 'Hb(g/dl)', 'Cycle(R/I)',
@@ -33,22 +39,23 @@ def index():
                 'BP _Diastolic (mmHg)', 'Follicle No. (L)', 'Follicle No. (R)',
                 'Avg. F size (L) (mm)', 'Avg. F size (R) (mm)', 'Endometrium (mm)'])
             # perform the model testing part
-            with open('TrainedModel/stackedmodel.pkl', 'rb') as file:
-                pickle_model = pickle.load(file)
-                class_label = pickle_model.predict(test_df)[0]
+            selected_model = request.form.get('model')
+            model_path = f"./TrainedModel/{selected_model}.joblib"
+            joblib_model = joblib.load(model_path)
+            class_label = joblib_model.predict(test_df)[0]
             # save the result as a variable
             if class_label == 0:
                 result = 'NOT PCOS'
             else:
                 result = 'PCOS'
             # define the return message
-            message = f"The diagnosis result of the patient's data is {result}."
-        except:
-            message = f"Invalid Input. Please check your data and type."
+            flash(f"The diagnosis result of the patient's data is {result}.", "result")
+        except Exception as e:
+            flash(f'{e}Invalid Input. Please check your selected model, data, and types!', 'danger')
         
         # print the result to the HTML page
         path = 'static/mean_importances.svg'
-        return render_template('index.html',href=path,message=message)
+        return render_template('index.html',href=path,available_models=available_models,selected_model=selected_model)
 
 
 if __name__ == '__main__':

@@ -48,7 +48,12 @@
         #submit-button {
             position: sticky;
             top: 0;
-            background-color: white;
+            background-color: rgb(131, 205, 142);
+            width: 100px;
+            height: 40px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: None;
         }
 
         #myDiv {
@@ -68,32 +73,63 @@
             width: 40%;
             height: 500px;
         }
+        .custom-box {
+            border: 2px solid rgb(63, 146, 76);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f4f3f3;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 1200px;
+            
+        }
+        .custom-box2 {
+            border: 2px solid rgb(63, 146, 76);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            background-color: #f4f3f3;
+            z-index: 1;
+        }
     </style>
 </head>
 
 <body>
     <center>
-        <div>
-        <div id="left">
-            <h2>Feature importance for the classifier</h2>
-            <img src="{{ href }}" height="80%" width="80%" />
-
-        </div>
-        <div id="right">
+        <div class="container">
+            <div id="left">
+                <h2>Feature importance for the classifier</h2>
+                <img src="{{ href }}" height="80%" width="90%" />
+            </div>
+            
+            <div id="right">
             <h2>Predicted result</h2>
-            <!-- Display a message below the form -->
-            {% if message %}
-            <p id="myDiv">RESULT: {{ message }}</p>
-            {% else %}
-            <p id="myDiv">Please input data and submit!</p>
-            {% endif %}
+                <div class="custom-box">
+                <!-- Display the message according to the flash result -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages[0][0] == "result" %}
+                        <p id="myDiv">RESULT predicted by {{selected_model}}:<br> {{ messages[0][1] }}</p>
+                    {% else %}
+                        <p id="myDiv">{{messages[0][1]}}</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            </div>
         </div>
-        </div>
+        
         <div>
-            <br><br>
+            <br>
             <h2>Variable Descriptions and Selections for PCOS diagnosis</h2>
 
             <div>
+                <!-- Add five sets of example input data -->
                 <label>Select a set of example values:</label>
                 <select id="selectSet">
                     <optgroup label="Empty input">
@@ -126,13 +162,31 @@
                     </optgroup>
                 </select>
             </div>
-            <br>
-            <input style="width: 800px;" type="text" id="myInput" onkeyup="myFunction()"
-                placeholder="Search for variables..." title="Type in a variable">
+            
             <div>
                 <form id="data-form" method="POST">
+                    <!--Model selection part -->
+                    <div class="custom-box2">
+                        <h2>Choose from the models:</h2>
+                    
+                        <!-- Radio buttons for model selection -->
+                        <div class="form-group">
+                            {% for model_name in available_models %}
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="model" value="{{ model_name }}"> {{ model_name }}
+                            </div>
+                            {% endfor %}
+                            <br><br>
+                        </div>
+                    </div>
+                    <!-- Submit button -->
                     <input type="submit" value="Submit" id="submit-button">
+                    <br><br>
+                    <!-- Data description and input part -->
                     <div class="table-container">
+                    <input style="width: 800px;" type="text" id="myInput" onkeyup="myFunction()"
+                placeholder="Search for variables..." title="Type in a variable">
+                    
                         <table id="myTable" style="width: 800px;">
                             <thead>
                                 <tr class="header">
