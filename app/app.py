@@ -50,9 +50,9 @@ def index():
                 result = 'PCOS'
             # define the return message
             flash(f"The diagnosis result of the patient's data is {result}.", "result")
-        except Exception as e:
+        except Exception:
             selected_model = None
-            flash(f'{e}Invalid Input. Please check your selected model, data, and types!', 'danger')
+            flash(f'Invalid Input. Please check your selected model, data, and types!', 'danger')
         
         # print the result to the HTML page
         path = 'static/mean_importances.svg'
