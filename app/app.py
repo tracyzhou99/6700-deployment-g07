@@ -40,7 +40,7 @@ def index():
                 'Avg. F size (L) (mm)', 'Avg. F size (R) (mm)', 'Endometrium (mm)'])
             # perform the model testing part
             selected_model = request.form.get('model')
-            model_path = f"./TrainedModel/{selected_model}.joblib"
+            model_path = f"./app/TrainedModel/{selected_model}.joblib"
             joblib_model = joblib.load(model_path)
             class_label = joblib_model.predict(test_df)[0]
             # save the result as a variable
@@ -51,6 +51,7 @@ def index():
             # define the return message
             flash(f"The diagnosis result of the patient's data is {result}.", "result")
         except Exception as e:
+            selected_model = None
             flash(f'{e}Invalid Input. Please check your selected model, data, and types!', 'danger')
         
         # print the result to the HTML page
