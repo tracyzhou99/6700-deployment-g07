@@ -12,6 +12,7 @@
             color: black;
             padding: 2px;
             text-align: center;
+            width: 1000px;
         }
 
         #myTable {
@@ -99,7 +100,8 @@
             flex-wrap: wrap;
             justify-content: space-between;
             width: 1000px;
-            
+            position: relative;
+            z-index: 2;
         }
         .custom-box2 {
             border: 2px solid rgb(63, 146, 76);
@@ -111,16 +113,37 @@
             background-color: #f4f3f3;
             z-index: 1;
         }
+        .collapsible-table {
+            position: relative;
+            width: 100%;
+            border-collapse: collapse;
+            z-index: 2;
+        }
+
+        .collapsible-table th, .collapsible-table td {
+            text-align: left;
+        }
+
+        .collapsible-tab {
+            cursor: pointer;
+            padding: 8px;
+            background-color: #f2f2f2;
+        }
+        .back-image {
+            position: relative;
+            z-index: 0;
+        }
     </style>
 </head>
 
-<body>
-    <header>
-        <h1>Polycystic Ovary Syndrome Diagnosis</h1>
-        <p style="font-size: 18px;">Group 07: Tianqi Zhou, Zixuan Li, Yifei Wu</p>
-    </header>
-    <br>
+<body>    
     <center>
+        <header>
+            <h1>Polycystic Ovary Syndrome Diagnosis</h1>
+            <p style="font-size: 18px;">Group 07: Tianqi Zhou, Zixuan Li, Yifei Wu</p>
+        </header>
+        <br>
+
         <form id="data-form" method="POST">
         <div class="container">
             <div id="left">
@@ -129,7 +152,7 @@
                 <label>Select a set of example values:</label>
                 <select id="selectSet">
                     <optgroup label="Empty input">
-                        <option value="">Empty input</option>
+                        <option value=", , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ">Empty input</option>
                     </optgroup>
                     <optgroup label="Example 1">
                         <option
@@ -424,17 +447,35 @@
 
             
             <div id="right">
-            <h2>Predicted result</h2>
                 <div class="custom-box">
-                <!-- Display the message according to the flash result -->
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages[0][0] == "result" %}
-                        <p id="myDiv">RESULT predicted by {{selected_model}}:<br> <span style="color: red;">{{ messages[0][1] }}</span></p>
-                    {% else %}
-                        <p id="myDiv2">{{messages[0][1]}}</p>
-                    {% endif %}
-                {% endwith %}
-            </div>
+                    <h2>Predicted result</h2>
+                    <!-- Display the message according to the flash result -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages[0][0] == "result" %}
+                            <p id="myDiv">RESULT predicted by {{selected_model}}:<br> <span style="color: red;">{{ messages[0][1] }}</span></p>
+                        {% else %}
+                            <p id="myDiv2">{{messages[0][1]}}</p>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                
+                {% if input_table %}
+                <div class="custom-box">
+                    <h3>Last Input Data</h3>
+                    <div class="collapsible-tab" onclick="toggleTable()">Click to show inputs</div>
+                    <table class="collapsible-table" id="inputTable" style="width: 200px; display: none;">
+                        <tbody>
+                            {% for variable, value in input_table.items() %}
+                            <tr>
+                                <td><strong>{{ variable }}:</strong> {{ value }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                
             </div>
         </div>
         <br><br>
@@ -461,7 +502,7 @@
                     
                     
                     <h2>Feature importance for the classifier</h2>
-                    <img src="{{ href }}" width="900px" />
+                    <img src="{{ href }}" width="900px" class="back-image"/>
                 
             </div>
         </div>
@@ -496,6 +537,17 @@
                     input.value = selectedSet[index];
                 });
             });
+        </script>
+        <script>
+            // Function to fold and span the input table
+            function toggleTable() {
+                var table = document.getElementById("inputTable");
+                if (table.style.display === "none" || table.style.display === "") {
+                    table.style.display = "table";
+                } else {
+                    table.style.display = "none";
+                }
+            }
         </script>
 
     </center>

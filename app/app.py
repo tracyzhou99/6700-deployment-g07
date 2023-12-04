@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 
 # define the available models for the app
-available_models = ['lg', 'NB', 'KNN', 'Tree', 'Random Forest', 'Bagging', 'Stacked Model', 'XGB','GBM']
+available_models = ['lg', 'NB', 'KNN', 'Tree', 'Random Forest', 'Bagging', 'XGB', 'GBM', 'Stacked Model',]
 
 # add get and post method to our app
 @app.route('/', methods=['GET','POST'])
@@ -38,9 +38,10 @@ def index():
                 'Fast food (Y/N)', 'Reg.Exercise(Y/N)', 'BP _Systolic (mmHg)',
                 'BP _Diastolic (mmHg)', 'Follicle No. (L)', 'Follicle No. (R)',
                 'Avg. F size (L) (mm)', 'Avg. F size (R) (mm)', 'Endometrium (mm)'])
+            test_dict = test_df.to_dict(orient='records')[0]
             # perform the model testing part
             selected_model = request.form.get('model')
-            model_path = f"./app/TrainedModel/{selected_model}.joblib"
+            model_path = f"app/TrainedModel/{selected_model}.joblib"
             joblib_model = joblib.load(model_path)
             class_label = joblib_model.predict(test_df)[0]
             # save the result as a variable
@@ -50,13 +51,14 @@ def index():
                 result = 'PCOS'
             # define the return message
             flash(f"The diagnosis result of the patient's data is {result}.", "result")
-        except Exception:
+        except Exception as e:
             selected_model = None
+            test_dict=None
             flash(f'Invalid Input. Please check your selected model, data, and types!', 'danger')
         
         # print the result to the HTML page
         path = 'static/mean_importances.svg'
-        return render_template('index.html',href=path,available_models=available_models,selected_model=selected_model)
+        return render_template('index.html',href=path,available_models=available_models,selected_model=selected_model,input_table=test_dict)
 
 
 if __name__ == '__main__':
